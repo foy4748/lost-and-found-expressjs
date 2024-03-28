@@ -13,6 +13,13 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+// Enums
+enum STATUS {
+    PENDING
+    APPROVED
+    REJECTED
+}
+
 // User model
 model Users {
     id           Int            @id @default(autoincrement())
@@ -22,7 +29,8 @@ model Users {
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt
     UserProfiles UserProfiles[]
-    FoundItem    FoundItem?
+    FoundItems   FoundItems?
+    Claims       Claims?
 }
 
 // FoundItemCategory Model
@@ -47,9 +55,23 @@ model FoundItems {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    Claims    Claims?
 }
 
 // Claims Model
+model Claims {
+    id                     Int        @id @default(autoincrement())
+    user                   Users      @relation(fields: [userId], references: [id])
+    userId                 Int        @unique
+    foundItem              FoundItems @relation(fields: [foundItemId], references: [id])
+    foundItemId            Int        @unique
+    status                 STATUS     @default(PENDING)
+    distinguishingFeatures String
+    lostDate               DateTime
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
 
 // UserProfile Model
 model UserProfiles {
