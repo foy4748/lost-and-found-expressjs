@@ -12,3 +12,33 @@ datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
 }
+
+// User model
+model Users {
+    id           Int            @id @default(autoincrement())
+    name         String
+    email        String         @unique
+    password     String
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    UserProfiles UserProfiles[]
+}
+
+// FoundItemCategory Model
+model FoundItemCategories {
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// UserProfile Model
+model UserProfiles {
+    id        Int      @id @default(autoincrement())
+    user      Users    @relation(fields: [userId], references: [id])
+    userId    Int
+    age       Int
+    bio       String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
