@@ -15,11 +15,6 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     errorDetails: err,
     stack: err?.stack,
   };
-  if (err?.name == 'CastError') {
-    const result = errorHandlers['CastError'](err);
-    statusCode = result.statusCode;
-    errorResponse = result.errorResponse;
-  }
 
   if (err instanceof ZodError) {
     const result = errorHandlers['ValidationError'](err);

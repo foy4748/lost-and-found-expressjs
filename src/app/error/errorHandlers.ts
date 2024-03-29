@@ -1,25 +1,8 @@
 import httpStatus from 'http-status';
-import mongoose from 'mongoose';
 import TErrorResponse from './error.interface';
 import { ZodError, ZodIssue } from 'zod';
 
 const errorHandlers = {
-  CastError: (err: mongoose.Error.CastError) => {
-    const errorResponse: TErrorResponse = {
-      success: false,
-      message: 'Invalid ID',
-      errorMessage: err.value + ` is not a valid ID!`,
-      errorDetails: err,
-      stack: err?.stack,
-    };
-
-    const statusCode = httpStatus.BAD_REQUEST;
-
-    return {
-      statusCode,
-      errorResponse,
-    };
-  },
   ValidationError: (err: ZodError) => {
     const errors = err.issues.map((issue: ZodIssue) => {
       const field = issue?.path[issue.path.length - 1];

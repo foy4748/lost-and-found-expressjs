@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { TuserRole } from '../modules/user/user.interface';
+//import { TuserRole } from '../modules/user/user.interface';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config/index';
 import AppError from '../error/AppError';
@@ -7,7 +7,7 @@ import catchAsyncError from '../utils/catchAsyncError';
 
 type TDecodedJWT = {
   _id: string;
-  role: TuserRole;
+  //role: TuserRole;
   email: string;
   iat: number;
   exp: number;

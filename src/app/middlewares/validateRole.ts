@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express';
-import { TuserRole } from '../modules/user/user.interface';
+//import { TuserRole } from '../modules/user/user.interface';
 import catchAsyncError from '../utils/catchAsyncError';
 
-const validateRole = (role: TuserRole): RequestHandler => {
+//const validateRole = (role: TuserRole): RequestHandler => {
+const validateRole = (role: any): RequestHandler => {
   return catchAsyncError((req, _, next) => {
     if (String(req.decoded?.role) == role) {
       next();
