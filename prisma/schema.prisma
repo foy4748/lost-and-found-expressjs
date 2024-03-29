@@ -22,15 +22,15 @@ enum STATUS {
 
 // User model
 model Users {
-    id           String        @id @default(uuid())
-    name         String
-    email        String        @unique
-    password     String
-    createdAt    DateTime      @default(now())
-    updatedAt    DateTime      @updatedAt
-    UserProfiles UserProfiles?
-    FoundItems   FoundItems[]
-    Claims       Claims[]
+    id         String        @id @default(uuid())
+    name       String
+    email      String        @unique
+    password   String
+    createdAt  DateTime      @default(now())
+    updatedAt  DateTime      @updatedAt
+    profile    UserProfiles?
+    FoundItems FoundItems[]
+    Claims     Claims[]
 }
 
 // FoundItemCategory Model

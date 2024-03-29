@@ -6,7 +6,6 @@ import type { Users, UserProfiles } from '@prisma/client';
 
 import { ScreateUserAndProfile } from './user.service';
 import config from '../../config';
-import { TUserAndUserProfileResponse } from './user.interface';
 
 type cookieSameSite = boolean | 'none' | 'strict' | 'lax' | undefined;
 
@@ -18,11 +17,11 @@ const cookieOptions = {
     : 'strict') as cookieSameSite,
 };
 
-export const CcreateUser = catchAsyncError(async (req, res, _) => {
+export const CcreateUser = catchAsyncError(async (req, res) => {
   const { body } = req;
   const data = await ScreateUserAndProfile(body);
 
-  const { id, email } = data.userCreated;
+  const { id, email } = data;
   const token = jwt.sign(
     {
       id,
@@ -31,8 +30,12 @@ export const CcreateUser = catchAsyncError(async (req, res, _) => {
     String(config?.jwt_access_token),
     { expiresIn: 60 * 60 },
   );
-
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'User registered successfully',
+    data,
+  };
   res.cookie('token', token, cookieOptions);
-  //sendResponse<payloadType>(res, responseObj);
-  res.send({ success: true });
+  sendResponse<typeof data>(res, responseObj);
 });

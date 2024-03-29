@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
-//import globalRoutes from './app/routes';
+import globalRoutes from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandlers';
 import cookieParser from 'cookie-parser';
 
@@ -16,7 +16,7 @@ app.use(
 );
 
 // App Routes
-//app.use('/api', globalRoutes);
+app.use('/api', globalRoutes);
 
 app.get('/', (_: Request, res: Response) => {
   res.send({ success: true, message: 'Server is UP and RUNNING' });
