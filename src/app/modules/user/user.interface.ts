@@ -23,3 +23,8 @@ export type TUserAndUserProfileResponse = {
     updatedAt: string;
   };
 };
+
+export type TUserLoginPayLoad = {
+  email: string;
+  password: string;
+};

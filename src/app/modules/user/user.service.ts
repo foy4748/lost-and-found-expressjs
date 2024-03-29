@@ -1,7 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import config from '../../config';
-import { TUserAndUserProfilePayLoad } from './user.interface';
+import {
+  TUserAndUserProfilePayLoad,
+  TUserLoginPayLoad,
+} from './user.interface';
+import AppError from '../../error/AppError';
+import httpStatus from 'http-status';
 const prisma = new PrismaClient();
 
 export async function ScreateUserAndProfile(
@@ -26,4 +31,25 @@ export async function ScreateUserAndProfile(
     },
   });
   return newUser;
+}
+
+export async function SloginUser(payload: TUserLoginPayLoad) {
+  const givenPassword = payload?.password;
+
+  const foundUser = await prisma.users.findUnique({
+    where: {
+      email: String(payload?.email),
+    },
+  });
+
+  const isPasswordMatched = bcrypt.compare(
+    givenPassword,
+    String(foundUser?.password),
+  );
+
+  if (!isPasswordMatched) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Email or Password is wrong');
+  }
+
+  return foundUser;
 }

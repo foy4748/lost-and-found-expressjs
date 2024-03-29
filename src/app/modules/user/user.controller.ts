@@ -4,7 +4,7 @@ import sendResponse, { TResponse } from '../../utils/sendResponse';
 import jwt from 'jsonwebtoken';
 import type { Users, UserProfiles } from '@prisma/client';
 
-import { ScreateUserAndProfile } from './user.service';
+import { ScreateUserAndProfile, SloginUser } from './user.service';
 import config from '../../config';
 
 type cookieSameSite = boolean | 'none' | 'strict' | 'lax' | undefined;
@@ -39,4 +39,30 @@ export const CcreateUser = catchAsyncError(async (req, res) => {
   };
   res.cookie('token', token, cookieOptions);
   sendResponse<typeof data>(res, responseObj);
+});
+
+export const CloginUser = catchAsyncError(async (req, res) => {
+  const { body } = req;
+  const userInfo = (await SloginUser(body)) as Users;
+  const { id, email } = userInfo;
+  const { password, createdAt, updatedAt, ...restData } = userInfo;
+  const token = jwt.sign(
+    {
+      id,
+      email,
+    },
+    String(config?.jwt_access_token),
+    { expiresIn: 60 * 60 },
+  );
+
+  type TuserInfoWithToken<T> = Partial<T> & { token: string };
+
+  const responseObj: TResponse<TuserInfoWithToken<typeof userInfo>> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User logged in successfully',
+    data: { ...restData, token },
+  };
+  res.cookie('token', token, cookieOptions);
+  sendResponse<TuserInfoWithToken<typeof userInfo>>(res, responseObj);
 });

@@ -14,11 +14,8 @@ const userValidationSchema = z.object({
 });
 
 export const userLoginValidationSchema = z.object({
-  username: z.string().nonempty('Username cannot be empty'),
-  password: z
-    .string()
-    .min(8, 'Minimum 8 character long password is required')
-    .max(16, 'Maximum 16 character is allowed for password.'),
+  email: z.string().nonempty(),
+  password: z.string().nonempty(),
 });
 
 export const userPasswordUpdateValidationSchema = z.object({
