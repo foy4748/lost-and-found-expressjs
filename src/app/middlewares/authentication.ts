@@ -6,8 +6,7 @@ import AppError from '../error/AppError';
 import catchAsyncError from '../utils/catchAsyncError';
 
 type TDecodedJWT = {
-  _id: string;
-  //role: TuserRole;
+  id: string;
   email: string;
   iat: number;
   exp: number;
