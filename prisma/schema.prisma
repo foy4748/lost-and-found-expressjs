@@ -35,20 +35,20 @@ model Users {
 
 // FoundItemCategory Model
 model FoundItemCategories {
-    id         String      @id @default(uuid())
+    id         String       @id @default(uuid())
     name       String
-    createdAt  DateTime    @default(now())
-    updatedAt  DateTime    @updatedAt
-    FoundItems FoundItems?
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
+    FoundItems FoundItems[]
 }
 
 // FoundItems Model
 model FoundItems {
     id            String              @id @default(uuid())
     user          Users               @relation(fields: [userId], references: [id])
-    userId        String              @unique
+    userId        String
     category      FoundItemCategories @relation(fields: [categoryId], references: [id])
-    categoryId    String              @unique
+    categoryId    String
     foundItemName String
     description   String
     location      String

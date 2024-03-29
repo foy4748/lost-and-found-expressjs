@@ -5,7 +5,7 @@ import config from '../config/index';
 import AppError from '../error/AppError';
 import catchAsyncError from '../utils/catchAsyncError';
 
-type TDecodedJWT = {
+export type TDecodedJWT = {
   id: string;
   email: string;
   iat: number;
