@@ -20,6 +20,7 @@ const cookieOptions = {
 export const CcreateUser = catchAsyncError(async (req, res) => {
   const { body } = req;
   const data = await ScreateUserAndProfile(body);
+  const { password, ...restData } = data;
 
   const { id, email } = data;
   const token = jwt.sign(
@@ -34,7 +35,7 @@ export const CcreateUser = catchAsyncError(async (req, res) => {
     success: true,
     statusCode: httpStatus.CREATED,
     message: 'User registered successfully',
-    data,
+    data: restData as typeof data,
   };
   res.cookie('token', token, cookieOptions);
   sendResponse<typeof data>(res, responseObj);
