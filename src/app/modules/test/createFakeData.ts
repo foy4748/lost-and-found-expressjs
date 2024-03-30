@@ -1,13 +1,40 @@
 import { PrismaClient } from '@prisma/client';
 import { returnRandomItem } from './utils';
+import axios from 'axios';
 
 const prisma = new PrismaClient();
 const ScreateFakeData = async () => {
+  const client = axios.create({
+    baseURL: 'http://localhost:3001',
+    //baseURL: 'https://apollo-assignment-04.vercel.app',
+  });
+
+  // Logging in As User
+  const user_token = { token: '' };
+  const userCredentials = {
+    email: 'john@example.com',
+    password: 'password',
+  };
+
+  const loginAsUser = async () => {
+    console.log('Trying to login as User for creating reviews');
+    const { data } = await client.post(
+      'https://apollo-assignment-08.vercel.app/api/login',
+      userCredentials,
+    );
+    const { token } = data.data;
+    client.defaults.headers.common['Authorization'] = token;
+    user_token.token = token;
+    console.log('User Login successfull');
+  };
+  await loginAsUser();
+
   const categoryIds = [
-    '61a03163-3cf6-4430-9147-9ec2c5fcb7dc',
-    '711a8e22-9dd1-417c-9e1a-002339ae455f',
-    '03f127f9-92e5-472c-b1bc-dba23835e9e5',
-    'd250cba1-90fd-4537-a96f-7dce42d07246',
+    '7c1ed6ab-a878-423a-9701-2f6b4d25e9e5',
+    'ab8aa9d1-3f69-4e26-9842-86564c208d71',
+    '0fc136a5-34d9-4f48-870f-880200b7b22d',
+    'f6c96e8d-dd13-403d-a3c9-7ba980785671',
+    '5f285653-039c-4760-892d-b3b1cea6e007',
   ];
 
   const randomFoundItemName = [
@@ -69,7 +96,7 @@ const ScreateFakeData = async () => {
     const foundItemName = returnRandomItem<string>(randomFoundItemName);
     const description = returnRandomItem<string>(randomDescriptions);
     const location = returnRandomItem<string>(randomLocations);
-    const userId = 'fef9f5db-1f89-49f7-864b-f4b36caa06ef';
+    const userId = 'd650af09-a7ce-46a1-9d1d-4efd06bbfce2';
     const payload = {
       categoryId,
       foundItemName,
@@ -78,8 +105,10 @@ const ScreateFakeData = async () => {
       userId,
     };
 
-    const result = await prisma.foundItems.create({ data: payload });
-
+    const result = await client.post(
+      'https://apollo-assignment-08.vercel.app/api/found-items',
+      payload,
+    );
     console.log(result);
   }
 };

@@ -67,12 +67,6 @@ CREATE TABLE "UserProfiles" (
 CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "FoundItems_userId_key" ON "FoundItems"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "FoundItems_categoryId_key" ON "FoundItems"("categoryId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Claims_userId_key" ON "Claims"("userId");
 
 -- CreateIndex
