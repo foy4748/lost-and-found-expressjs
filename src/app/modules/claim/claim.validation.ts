@@ -6,4 +6,8 @@ const claimCreationValidation = z.object({
   lostDate: z.string(),
 });
 
+export const claimUpdatePayloadValidation = z.object({
+  status: z.enum(['APPROVED', 'REJECTED']),
+});
+
 export default claimCreationValidation;
