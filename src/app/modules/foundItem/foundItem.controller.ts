@@ -32,11 +32,12 @@ export const CgetFoundItems = catchAsyncError(async (req, res) => {
     paginationFields,
   );
 
-  const responseObj: TResponse<typeof data> = {
+  const responseObj: TResponse<typeof data.result> = {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Found items retrieved successfully',
-    data,
+    meta: data.meta,
+    data: data.result,
   };
-  sendResponse<typeof data>(res, responseObj);
+  sendResponse<typeof data.result>(res, responseObj);
 });

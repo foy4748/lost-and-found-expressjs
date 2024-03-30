@@ -74,6 +74,10 @@ export const SpaginatedAndFilteredFoundItems = async (
             createdAt: 'desc',
           },
   });
+  const total = await prisma.foundItems.count({
+    where: whereConditons,
+  });
 
-  return result;
+  const meta = { total, page: Number(page) || 1, limit: Number(limit) || 10 };
+  return { result, meta };
 };
