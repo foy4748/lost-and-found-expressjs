@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { TfoundItemPayload } from './foundItem.interface';
-import { TDecodedJWT } from '../../middlewares/authentication';
 import allowedUserFields from '../user/user.constant';
 import { JwtPayload } from 'jsonwebtoken';
 const prisma = new PrismaClient();
