@@ -63,7 +63,7 @@ export const SpaginatedAndFilteredFoundItems = async (
   const result = await prisma.foundItems.findMany({
     where: whereConditons,
     skip,
-    take: limit,
+    take: Number(limit),
     orderBy:
       paginationControlObject?.sortBy && paginationControlObject.sortOrder
         ? {
