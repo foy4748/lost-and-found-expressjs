@@ -10,3 +10,8 @@ export async function ScreateFoundItemCategory(
   });
   return newCategory;
 }
+
+export async function SgetFoundItemCategories() {
+  const categories = await prisma.foundItemCategories.findMany({});
+  return categories;
+}

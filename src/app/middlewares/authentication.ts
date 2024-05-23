@@ -14,12 +14,12 @@ export type TDecodedJWT = {
 
 const authentication = (): RequestHandler => {
   return catchAsyncError((req, _, next) => {
-    const { authorization } = req.headers;
+    const { token } = req.cookies;
     //console.log(authorization);
     let decoded;
     try {
       decoded = jwt.verify(
-        String(authorization),
+        String(token),
         String(config?.jwt_access_token),
       ) as TDecodedJWT;
     } catch (error) {
