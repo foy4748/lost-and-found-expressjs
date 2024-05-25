@@ -4,6 +4,7 @@ export const foundItemsSearchAbleFields = [
   'foundItemName',
   'location',
   'description',
+  'userId',
 ];
 
 export const foundItemsSortFields = ['foundItemName', 'category', 'foundDate'];

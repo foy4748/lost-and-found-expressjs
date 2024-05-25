@@ -1,7 +1,7 @@
 import { STATUS } from '@prisma/client';
 
 export type TCreateClaimPayload = {
-  foundItemId: string;
+  foundById: string;
   distinguishingFeatures: string;
   lostDate: string;
 };

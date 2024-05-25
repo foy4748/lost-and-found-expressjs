@@ -32,7 +32,6 @@ model Users {
     profile    UserProfiles?
     FoundItems FoundItems[]
     Claims     Claims[]
-    FoundBy    FoundBy[]
 }
 
 // FoundItemCategory Model
@@ -42,15 +41,6 @@ model FoundItemCategories {
     createdAt  DateTime     @default(now())
     updatedAt  DateTime     @updatedAt
     FoundItems FoundItems[]
-}
-
-model FoundBy {
-    id          String     @id @default(uuid())
-    user        Users      @relation(fields: [userId], references: [id])
-    userId      String
-    foundItem   FoundItems @relation(fields: [foundItemId], references: [id])
-    foundItemId String
-    Claims      Claims?
 }
 
 // FoundItems Model
@@ -63,29 +53,25 @@ model FoundItems {
     foundItemName String
     description   String
     location      String
-    isItemFound   Boolean             @default(false)
 
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    Claims    Claims?   @relation(fields: [claimsId], references: [id])
-    FoundBy   FoundBy[]
-    claimsId  String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Claims    Claims?
 }
 
 // Claims Model
 model Claims {
-    id                     String   @id @default(uuid())
-    user                   Users    @relation(fields: [userId], references: [id])
-    userId                 String   @unique
-    foundBy                FoundBy  @relation(fields: [foundById], references: [id])
-    foundById              String   @unique
-    status                 STATUS   @default(PENDING)
+    id                     String     @id @default(uuid())
+    user                   Users      @relation(fields: [userId], references: [id])
+    userId                 String     @unique
+    foundItem              FoundItems @relation(fields: [foundItemId], references: [id])
+    foundItemId            String     @unique
+    status                 STATUS     @default(PENDING)
     distinguishingFeatures String
     lostDate               DateTime
 
-    createdAt  DateTime     @default(now())
-    updatedAt  DateTime     @updatedAt
-    FoundItems FoundItems[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 // UserProfile Model

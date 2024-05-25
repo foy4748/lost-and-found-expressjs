@@ -20,12 +20,11 @@ export async function ScreateClaim(
 export async function SgetClaims() {
   const claims = await prisma.claims.findMany({
     include: {
-      foundItem: {
+      foundBy: {
         include: {
           user: {
             select: allowedUserFields,
           },
-          category: true,
         },
       },
     },
