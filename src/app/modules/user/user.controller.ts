@@ -37,6 +37,7 @@ export const CcreateUser = catchAsyncError(async (req, res) => {
     message: 'User registered successfully',
     data: restData as typeof data,
   };
+  res.setHeader('token', token);
   res.cookie('token', token, cookieOptions);
   sendResponse<typeof data>(res, responseObj);
 });
