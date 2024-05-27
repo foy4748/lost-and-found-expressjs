@@ -2,7 +2,10 @@ import httpStatus from 'http-status';
 import catchAsyncError from '../../utils/catchAsyncError';
 import sendResponse, { TResponse } from '../../utils/sendResponse';
 import {
+  SgetFoundBy,
+  SgetSingleFoundItem,
   SpaginatedAndFilteredFoundItems,
+  SreportFoundBy,
   SreportFoundItem,
 } from './foundItem.service';
 import pick from '../../utils/pick';
@@ -40,4 +43,42 @@ export const CgetFoundItems = catchAsyncError(async (req, res) => {
     data: data.result,
   };
   sendResponse<typeof data.result>(res, responseObj);
+});
+
+export const CgetSingleFoundItem = catchAsyncError(async (req, res) => {
+  const id: string = String(req.params.id);
+  const data = await SgetSingleFoundItem(id);
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Found item data retrieved successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
+});
+
+export const CreportFoundBy = catchAsyncError(async (req, res) => {
+  const { body } = req;
+  const data = await SreportFoundBy(body, req.decoded);
+
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Reported item is Found successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
+});
+
+export const CgetFoundBy = catchAsyncError(async (req, res) => {
+  const { foundItemId } = req.params;
+  const data = await SgetFoundBy(foundItemId);
+
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'FoundBy data retrieved successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
 });

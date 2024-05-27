@@ -16,3 +16,7 @@ export type TpaginationControlObject = {
   sortOrder?: 'asc' | 'desc';
   sortBy?: 'foundItemName' | 'category' | 'foundDate';
 };
+
+export type TReportFoundBy = {
+  foundItemId: string;
+};

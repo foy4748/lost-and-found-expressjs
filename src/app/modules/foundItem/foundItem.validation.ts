@@ -6,4 +6,8 @@ const foundItemValidation = z.object({
   description: z.string(),
   location: z.string(),
 });
+
+export const foundByValidation = z.object({
+  foundItemId: z.string(),
+});
 export default foundItemValidation;

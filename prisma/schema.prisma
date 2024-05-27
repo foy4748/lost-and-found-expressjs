@@ -49,8 +49,8 @@ model FoundBy {
     user        Users      @relation(fields: [userId], references: [id])
     userId      String
     foundItem   FoundItems @relation(fields: [foundItemId], references: [id])
-    foundItemId String
-    Claims      Claims?
+    foundItemId String     @unique
+    Claims      Claims[]
 }
 
 // FoundItems Model
@@ -65,10 +65,10 @@ model FoundItems {
     location      String
     isItemFound   Boolean             @default(false)
 
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    Claims    Claims?   @relation(fields: [claimsId], references: [id])
-    FoundBy   FoundBy[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    FoundBy   FoundBy?
+    Claims    Claims?  @relation(fields: [claimsId], references: [id])
     claimsId  String?
 }
 

@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 import {
+  TReportFoundBy,
   TfilterControlObject,
   TfoundItemPayload,
   TpaginationControlObject,
@@ -80,4 +81,55 @@ export const SpaginatedAndFilteredFoundItems = async (
 
   const meta = { total, page: Number(page) || 1, limit: Number(limit) || 10 };
   return { result, meta };
+};
+
+export const SgetSingleFoundItem = async (id: string) => {
+  const result = await prisma.foundItems.findFirst({
+    where: {
+      id,
+    },
+    include: {
+      user: {
+        select: {
+          email: true,
+          name: true,
+        },
+      },
+      category: true,
+    },
+  });
+  return result;
+};
+
+export const SreportFoundBy = async (
+  payload: TReportFoundBy,
+  decoded: JwtPayload,
+) => {
+  const [result] = await prisma.$transaction([
+    prisma.foundBy.create({
+      data: { ...payload, userId: decoded.id },
+    }),
+    prisma.foundItems.update({
+      where: {
+        id: payload.foundItemId,
+      },
+      data: {
+        isItemFound: true,
+      },
+    }),
+  ]);
+
+  return result;
+};
+
+export const SgetFoundBy = async (foundItemId: string) => {
+  const result = await prisma.foundBy.findUnique({
+    where: {
+      foundItemId,
+    },
+    include: {
+      user: true,
+    },
+  });
+  return result;
 };
