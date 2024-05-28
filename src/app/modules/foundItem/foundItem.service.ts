@@ -128,7 +128,13 @@ export const SgetFoundBy = async (foundItemId: string) => {
       foundItemId,
     },
     include: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          email: true,
+          name: true,
+        },
+      },
     },
   });
   return result;

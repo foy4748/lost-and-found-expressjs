@@ -78,7 +78,7 @@ model Claims {
     user                   Users    @relation(fields: [userId], references: [id])
     userId                 String   @unique
     foundBy                FoundBy  @relation(fields: [foundById], references: [id])
-    foundById              String   @unique
+    foundById              String
     status                 STATUS   @default(PENDING)
     distinguishingFeatures String
     lostDate               DateTime

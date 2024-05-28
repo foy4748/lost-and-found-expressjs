@@ -10,8 +10,10 @@ export async function ScreateClaim(
 ) {
   const newClaim = await prisma.claims.create({
     data: {
-      ...payload,
-      userId: decoded.id,
+      foundById: payload.foundById,
+      userId: String(decoded.id),
+      lostDate: new Date(payload.lostDate),
+      distinguishingFeatures: payload.distinguishingFeatures,
     },
   });
   return newClaim;

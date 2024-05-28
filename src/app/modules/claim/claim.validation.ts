@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
 const claimCreationValidation = z.object({
-  foundItemId: z.string(),
+  foundById: z.string(),
   distinguishingFeatures: z.string(),
-  lostDate: z.string(),
+  lostDate: z.coerce.date(),
 });
 
 export const claimUpdatePayloadValidation = z.object({
