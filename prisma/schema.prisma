@@ -51,6 +51,8 @@ model FoundBy {
     foundItem   FoundItems @relation(fields: [foundItemId], references: [id])
     foundItemId String     @unique
     Claims      Claims[]
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
 }
 
 // FoundItems Model

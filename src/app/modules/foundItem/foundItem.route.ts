@@ -7,6 +7,7 @@ import {
   CgetFoundItems,
   CgetSingleFoundItem,
   CreportFoundBy,
+  CreportFoundItem,
   CreportLostItem,
 } from './foundItem.controller';
 import authentication from '../../middlewares/authentication';
@@ -24,6 +25,7 @@ router.post(
   '/report-found',
   authentication(),
   validateRequest(foundItemValidation),
+  CreportFoundItem,
 );
 
 router.post(
