@@ -7,18 +7,25 @@ import {
   CgetFoundItems,
   CgetSingleFoundItem,
   CreportFoundBy,
-  CreportFoundItem,
+  CreportLostItem,
 } from './foundItem.controller';
 import authentication from '../../middlewares/authentication';
 
 const router = express.Router();
 
 router.post(
-  '/',
+  '/report-lost',
   authentication(),
   validateRequest(foundItemValidation),
-  CreportFoundItem,
+  CreportLostItem,
 );
+
+router.post(
+  '/report-found',
+  authentication(),
+  validateRequest(foundItemValidation),
+);
+
 router.post(
   '/found-by',
   authentication(),

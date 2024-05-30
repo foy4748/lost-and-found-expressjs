@@ -11,6 +11,27 @@ import { JwtPayload } from 'jsonwebtoken';
 import { foundItemsSearchAbleFields } from './foundItem.constant';
 const prisma = new PrismaClient();
 
+// Report Lost Item
+export const SreportLostItem = async (
+  payload: TfoundItemPayload,
+  decoded: JwtPayload,
+) => {
+  const reportedLostItem = await prisma.foundItems.create({
+    data: {
+      ...payload,
+      userId: decoded.id,
+    },
+    include: {
+      category: true,
+      user: {
+        select: allowedUserFields,
+      },
+    },
+  });
+  return reportedLostItem;
+};
+
+// Report Found Item [IMPORTANT]
 export const SreportFoundItem = async (
   payload: TfoundItemPayload,
   decoded: JwtPayload,
@@ -19,6 +40,12 @@ export const SreportFoundItem = async (
     data: {
       ...payload,
       userId: decoded.id,
+      isItemFound: true,
+      FoundBy: {
+        create: {
+          userId: decoded.id,
+        },
+      },
     },
     include: {
       category: true,
@@ -101,6 +128,7 @@ export const SgetSingleFoundItem = async (id: string) => {
   return result;
 };
 
+// Report foundBy for a Lost Item
 export const SreportFoundBy = async (
   payload: TReportFoundBy,
   decoded: JwtPayload,

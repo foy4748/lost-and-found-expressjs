@@ -7,12 +7,27 @@ import {
   SpaginatedAndFilteredFoundItems,
   SreportFoundBy,
   SreportFoundItem,
+  //SreportFoundItem,
+  SreportLostItem,
 } from './foundItem.service';
 import pick from '../../utils/pick';
 import {
   foundItemsFilterableFields,
   paginationRelatedFields,
 } from './foundItem.constant';
+
+export const CreportLostItem = catchAsyncError(async (req, res) => {
+  const { body } = req;
+  const data = await SreportLostItem(body, req.decoded);
+
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Lost item  created successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
+});
 
 export const CreportFoundItem = catchAsyncError(async (req, res) => {
   const { body } = req;
@@ -21,7 +36,7 @@ export const CreportFoundItem = catchAsyncError(async (req, res) => {
   const responseObj: TResponse<typeof data> = {
     success: true,
     statusCode: httpStatus.CREATED,
-    message: 'Found item category created successfully',
+    message: 'Found item  created successfully',
     data,
   };
   sendResponse<typeof data>(res, responseObj);
