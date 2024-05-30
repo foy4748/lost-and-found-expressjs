@@ -5,6 +5,8 @@ const foundItemValidation = z.object({
   foundItemName: z.string(),
   description: z.string(),
   location: z.string(),
+  isItemFound: z.boolean().optional(),
+  photoUrl: z.string().optional(),
 });
 
 export const foundByValidation = z.object({

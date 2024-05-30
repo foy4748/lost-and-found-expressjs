@@ -3,6 +3,8 @@ export type TfoundItemPayload = {
   foundItemName: string;
   description: string;
   location: string;
+  isItemFound?: boolean;
+  photoUrl?: string;
 };
 
 export type TfilterControlObject = {

@@ -129,11 +129,7 @@ export const SgetFoundBy = async (foundItemId: string) => {
     },
     include: {
       user: {
-        select: {
-          id: true,
-          email: true,
-          name: true,
-        },
+        select: allowedUserFields,
       },
     },
   });

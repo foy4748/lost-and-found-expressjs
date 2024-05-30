@@ -64,6 +64,7 @@ model FoundItems {
     description   String
     location      String
     isItemFound   Boolean             @default(false)
+    photoUrl      String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
