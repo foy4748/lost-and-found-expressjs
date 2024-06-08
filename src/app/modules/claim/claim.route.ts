@@ -5,7 +5,12 @@ import claimCreationValidation, {
 } from './claim.validation';
 
 import authentication from '../../middlewares/authentication';
-import { CcreateClaim, CgetClaims, CupdateClaim } from './claim.controller';
+import {
+  CcreateClaim,
+  CgetClaimByFoundById,
+  CgetClaims,
+  CupdateClaim,
+} from './claim.controller';
 
 const router = express.Router();
 
@@ -17,6 +22,7 @@ router.post(
 );
 
 router.get('/', authentication(), CgetClaims);
+router.get('/:foundById', authentication(), CgetClaimByFoundById);
 
 router.put(
   '/:claimid',

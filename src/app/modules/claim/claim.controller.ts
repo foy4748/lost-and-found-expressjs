@@ -2,7 +2,12 @@ import httpStatus from 'http-status';
 import catchAsyncError from '../../utils/catchAsyncError';
 import sendResponse, { TResponse } from '../../utils/sendResponse';
 
-import { ScreateClaim, SgetClaims, SupdateClaim } from './claim.service';
+import {
+  ScreateClaim,
+  SgetClaimByFoundById,
+  SgetClaims,
+  SupdateClaim,
+} from './claim.service';
 
 export const CcreateClaim = catchAsyncError(async (req, res) => {
   const { body, decoded } = req;
@@ -37,6 +42,19 @@ export const CupdateClaim = catchAsyncError(async (req, res) => {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Claims updated successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
+});
+
+export const CgetClaimByFoundById = catchAsyncError(async (req, res) => {
+  const { foundById } = req.params;
+  const data = await SgetClaimByFoundById(String(foundById));
+
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Claims retrieved successfully',
     data,
   };
   sendResponse<typeof data>(res, responseObj);

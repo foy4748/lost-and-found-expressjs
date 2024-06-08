@@ -46,3 +46,12 @@ export async function SupdateClaim(
   });
   return updatedClaim;
 }
+
+export async function SgetClaimByFoundById(foundById: string) {
+  const result = await prisma.claims.findMany({
+    where: {
+      foundById,
+    },
+  });
+  return result;
+}
