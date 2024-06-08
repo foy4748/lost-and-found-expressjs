@@ -128,6 +128,21 @@ export const SgetSingleFoundItem = async (id: string) => {
   return result;
 };
 
+// Get FoundItems specific to a user
+
+export const SgetUserSpecificFoundItems = async (
+  decoded: JwtPayload,
+  isItemFound?: boolean,
+) => {
+  const result = await prisma.foundItems.findMany({
+    where: {
+      userId: String(decoded.id),
+      isItemFound: Boolean(isItemFound),
+    },
+  });
+  return result;
+};
+
 // Report foundBy for a Lost Item
 export const SreportFoundBy = async (
   payload: TReportFoundBy,

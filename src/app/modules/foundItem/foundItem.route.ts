@@ -6,6 +6,7 @@ import {
   CgetFoundBy,
   CgetFoundItems,
   CgetSingleFoundItem,
+  CgetUserSpecificFoundItems,
   CreportFoundBy,
   CreportFoundItem,
   CreportLostItem,
@@ -36,7 +37,8 @@ router.post(
 );
 
 router.get('/', CgetFoundItems);
-router.get('/:id', CgetSingleFoundItem);
+router.get('/by-user', authentication(), CgetUserSpecificFoundItems);
 router.get('/found-by/:foundItemId', CgetFoundBy);
+router.get('/:id', CgetSingleFoundItem);
 
 export default router;

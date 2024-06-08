@@ -4,6 +4,7 @@ import sendResponse, { TResponse } from '../../utils/sendResponse';
 import {
   SgetFoundBy,
   SgetSingleFoundItem,
+  SgetUserSpecificFoundItems,
   SpaginatedAndFilteredFoundItems,
   SreportFoundBy,
   SreportFoundItem,
@@ -28,7 +29,6 @@ export const CreportLostItem = catchAsyncError(async (req, res) => {
   };
   sendResponse<typeof data>(res, responseObj);
 });
-
 export const CreportFoundItem = catchAsyncError(async (req, res) => {
   const { body } = req;
   const data = await SreportFoundItem(body, req.decoded);
@@ -80,6 +80,21 @@ export const CreportFoundBy = catchAsyncError(async (req, res) => {
     success: true,
     statusCode: httpStatus.CREATED,
     message: 'Reported item is Found successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
+});
+
+export const CgetUserSpecificFoundItems = catchAsyncError(async (req, res) => {
+  const { isItemFound } = req.query;
+  const data = await SgetUserSpecificFoundItems(
+    req.decoded,
+    Boolean(isItemFound),
+  );
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'FoundItems data retrieved successfully',
     data,
   };
   sendResponse<typeof data>(res, responseObj);
