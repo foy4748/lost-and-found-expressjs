@@ -132,12 +132,12 @@ export const SgetSingleFoundItem = async (id: string) => {
 
 export const SgetUserSpecificFoundItems = async (
   decoded: JwtPayload,
-  isItemFound?: boolean,
+  isItemFound?: string,
 ) => {
   const result = await prisma.foundItems.findMany({
     where: {
       userId: String(decoded.id),
-      isItemFound: Boolean(isItemFound),
+      isItemFound: Boolean(Number(isItemFound)),
     },
   });
   return result;

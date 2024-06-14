@@ -89,7 +89,7 @@ export const CgetUserSpecificFoundItems = catchAsyncError(async (req, res) => {
   const { isItemFound } = req.query;
   const data = await SgetUserSpecificFoundItems(
     req.decoded,
-    Boolean(isItemFound),
+    String(isItemFound),
   );
   const responseObj: TResponse<typeof data> = {
     success: true,
