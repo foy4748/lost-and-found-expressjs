@@ -139,6 +139,7 @@ export const SgetUserSpecificFoundItems = async (
       userId: String(decoded.id),
       isItemFound: Boolean(Number(isItemFound)),
     },
+	include: { category: true },
   });
   return result;
 };
