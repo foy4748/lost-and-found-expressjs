@@ -52,6 +52,11 @@ export async function SgetClaimByFoundById(foundById: string) {
     where: {
       foundById,
     },
+    include: {
+      user: {
+        select: allowedUserFields,
+      },
+    },
   });
   return result;
 }
