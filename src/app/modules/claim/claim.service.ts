@@ -60,3 +60,24 @@ export async function SgetClaimByFoundById(foundById: string) {
   });
   return result;
 }
+export async function SgetClaimByUserId(userId: string) {
+  const result = await prisma.claims.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      user: {
+        select: allowedUserFields,
+      },
+      foundBy: {
+        include: {
+          user: {
+            select: allowedUserFields,
+          },
+          foundItem: true,
+        },
+      },
+    },
+  });
+  return result;
+}

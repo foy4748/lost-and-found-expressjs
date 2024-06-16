@@ -140,7 +140,6 @@ export const SgetUserSpecificFoundItems = async (
       isItemFound: Boolean(Number(isItemFound)),
     },
     include: {
-      category: true,
       FoundBy: {
         include: {
           user: {

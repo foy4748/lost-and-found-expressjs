@@ -8,6 +8,7 @@ import authentication from '../../middlewares/authentication';
 import {
   CcreateClaim,
   CgetClaimByFoundById,
+  CgetClaimByUserId,
   CgetClaims,
   CupdateClaim,
 } from './claim.controller';
@@ -22,6 +23,7 @@ router.post(
 );
 
 router.get('/', authentication(), CgetClaims);
+router.get('/by-user', authentication(), CgetClaimByUserId);
 router.get('/:foundById', authentication(), CgetClaimByFoundById);
 
 router.put(

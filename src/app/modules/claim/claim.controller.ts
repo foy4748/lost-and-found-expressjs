@@ -5,6 +5,7 @@ import sendResponse, { TResponse } from '../../utils/sendResponse';
 import {
   ScreateClaim,
   SgetClaimByFoundById,
+  SgetClaimByUserId,
   SgetClaims,
   SupdateClaim,
 } from './claim.service';
@@ -50,6 +51,19 @@ export const CupdateClaim = catchAsyncError(async (req, res) => {
 export const CgetClaimByFoundById = catchAsyncError(async (req, res) => {
   const { foundById } = req.params;
   const data = await SgetClaimByFoundById(String(foundById));
+
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Claims retrieved successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
+});
+
+export const CgetClaimByUserId = catchAsyncError(async (req, res) => {
+  const { id } = req.decoded;
+  const data = await SgetClaimByUserId(String(id));
 
   const responseObj: TResponse<typeof data> = {
     success: true,
