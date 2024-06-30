@@ -133,23 +133,33 @@ export const SgetSingleFoundItem = async (id: string) => {
 export const SgetUserSpecificFoundItems = async (
   decoded: JwtPayload,
   isItemFound?: string,
+  page?: string | `${number}`,
+  limit?: string | `${number}`,
 ) => {
-  const result = await prisma.foundItems.findMany({
-    where: {
-      userId: String(decoded.id),
-      isItemFound: Boolean(Number(isItemFound)),
-    },
-    include: {
-      FoundBy: {
-        include: {
-          user: {
-            select: allowedUserFields,
-          },
+  const skip = ((Number(page) || 1) - 1) * (Number(limit) || 10);
+  const queryWhere: Prisma.FoundItemsWhereInput = {
+    userId: String(decoded.id),
+    isItemFound: Boolean(Number(isItemFound)),
+  };
+  const queryInclude: Prisma.FoundItemsInclude = {
+    FoundBy: {
+      include: {
+        user: {
+          select: allowedUserFields,
         },
       },
     },
+  };
+  const result = await prisma.foundItems.findMany({
+    where: queryWhere,
+    include: queryInclude,
+    skip,
+    take: Number(limit) || 10,
   });
-  return result;
+
+  const total = await prisma.foundItems.count({ where: queryWhere });
+  const meta = { total, page: Number(page) || 1, limit: Number(limit) || 10 };
+  return { result, meta };
 };
 
 // Report foundBy for a Lost Item

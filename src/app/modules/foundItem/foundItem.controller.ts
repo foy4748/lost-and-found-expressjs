@@ -88,18 +88,21 @@ export const CreportFoundBy = catchAsyncError(async (req, res) => {
 });
 
 export const CgetUserSpecificFoundItems = catchAsyncError(async (req, res) => {
-  const { isItemFound } = req.query;
+  const { isItemFound, page, limit } = req.query;
   const data = await SgetUserSpecificFoundItems(
     req.decoded,
     String(isItemFound),
+    String(page),
+    String(limit),
   );
-  const responseObj: TResponse<typeof data> = {
+  const responseObj: TResponse<typeof data.result> = {
     success: true,
     statusCode: httpStatus.OK,
     message: 'FoundItems data retrieved successfully',
-    data,
+    meta: data.meta,
+    data: data.result,
   };
-  sendResponse<typeof data>(res, responseObj);
+  sendResponse<typeof data.result>(res, responseObj);
 });
 
 export const CgetFoundBy = catchAsyncError(async (req, res) => {
