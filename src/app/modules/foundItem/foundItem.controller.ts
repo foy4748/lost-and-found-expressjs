@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import catchAsyncError from '../../utils/catchAsyncError';
 import sendResponse, { TResponse } from '../../utils/sendResponse';
 import {
+  SdeleteFoundItem,
   SgetFoundBy,
   SgetSingleFoundItem,
   SgetUserSpecificFoundItems,
@@ -16,6 +17,7 @@ import {
   foundItemsFilterableFields,
   paginationRelatedFields,
 } from './foundItem.constant';
+import AppError from '../../error/AppError';
 
 export const CreportLostItem = catchAsyncError(async (req, res) => {
   const { body } = req;
@@ -111,4 +113,25 @@ export const CgetFoundBy = catchAsyncError(async (req, res) => {
     data,
   };
   sendResponse<typeof data>(res, responseObj);
+});
+
+export const CdeleteFoundItem = catchAsyncError(async (req, res) => {
+  const { foundItemId } = req.params;
+  const toBeDeleted = await SgetSingleFoundItem(foundItemId);
+  if (toBeDeleted?.userId == req.decoded.id) {
+    const data = await SdeleteFoundItem(foundItemId);
+
+    const responseObj: TResponse<typeof data> = {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Found Item was deleted successfully',
+      data,
+    };
+    sendResponse<typeof data>(res, responseObj);
+  } else {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "You can't delete someone else's item",
+    );
+  }
 });

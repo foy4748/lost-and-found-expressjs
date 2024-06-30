@@ -3,6 +3,7 @@ import validateRequest from '../../middlewares/validateRequests';
 import foundItemValidation, { foundByValidation } from './foundItem.validation';
 
 import {
+  CdeleteFoundItem,
   CgetFoundBy,
   CgetFoundItems,
   CgetSingleFoundItem,
@@ -40,5 +41,6 @@ router.get('/', CgetFoundItems);
 router.get('/by-user', authentication(), CgetUserSpecificFoundItems);
 router.get('/found-by/:foundItemId', CgetFoundBy);
 router.get('/:id', CgetSingleFoundItem);
+router.delete('/:foundItemId', authentication(), CdeleteFoundItem);
 
 export default router;

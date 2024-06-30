@@ -187,3 +187,14 @@ export const SgetFoundBy = async (foundItemId: string) => {
   });
   return result;
 };
+
+export const SdeleteFoundItem = async (foundItemId: string) => {
+  console.log(foundItemId);
+  const result = await prisma.foundItems.delete({
+    where: {
+      id: foundItemId,
+    },
+  });
+
+  return result;
+};
