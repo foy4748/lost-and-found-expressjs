@@ -1,8 +1,18 @@
 export type TfoundItemPayload = {
+  id: string;
   categoryId: string;
   foundItemName: string;
   description: string;
   location: string;
+  isItemFound?: boolean;
+  photoUrl?: string;
+};
+export type TfoundItemUpdatePayload = {
+  id?: string;
+  categoryId?: string;
+  foundItemName?: string;
+  description?: string;
+  location?: string;
   isItemFound?: boolean;
   photoUrl?: string;
 };

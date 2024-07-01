@@ -11,6 +11,7 @@ import {
   SreportFoundItem,
   //SreportFoundItem,
   SreportLostItem,
+  SupdateFoundItem,
 } from './foundItem.service';
 import pick from '../../utils/pick';
 import {
@@ -116,6 +117,26 @@ export const CgetFoundBy = catchAsyncError(async (req, res) => {
     data,
   };
   sendResponse<typeof data>(res, responseObj);
+});
+
+export const CupdateFoundItem = catchAsyncError(async (req, res) => {
+  const toBeUpdated = await SgetSingleFoundItem(req.body.id);
+  if (toBeUpdated?.userId == req.decoded.id) {
+    const data = await SupdateFoundItem(req.body);
+
+    const responseObj: TResponse<typeof data> = {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Found Item was updated successfully',
+      data,
+    };
+    sendResponse<typeof data>(res, responseObj);
+  } else {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "You can't update someone else's item",
+    );
+  }
 });
 
 export const CdeleteFoundItem = catchAsyncError(async (req, res) => {

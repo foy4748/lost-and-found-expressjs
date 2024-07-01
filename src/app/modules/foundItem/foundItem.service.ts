@@ -4,6 +4,7 @@ import {
   TReportFoundBy,
   TfilterControlObject,
   TfoundItemPayload,
+  TfoundItemUpdatePayload,
   TpaginationControlObject,
 } from './foundItem.interface';
 import allowedUserFields from '../user/user.constant';
@@ -198,8 +199,23 @@ export const SgetFoundBy = async (foundItemId: string) => {
   return result;
 };
 
+export const SupdateFoundItem = async (payload: TfoundItemUpdatePayload) => {
+  const updateResponse = await prisma.foundItems.update({
+    where: {
+      id: payload.id,
+    },
+    data: payload,
+    include: {
+      category: true,
+      user: {
+        select: allowedUserFields,
+      },
+    },
+  });
+  return updateResponse;
+};
+
 export const SdeleteFoundItem = async (foundItemId: string) => {
-  console.log(foundItemId);
   const result = await prisma.foundItems.delete({
     where: {
       id: foundItemId,

@@ -1,6 +1,9 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequests';
-import foundItemValidation, { foundByValidation } from './foundItem.validation';
+import foundItemValidation, {
+  foundByValidation,
+  foundItemUpdatePayloadValidation,
+} from './foundItem.validation';
 
 import {
   CdeleteFoundItem,
@@ -11,6 +14,7 @@ import {
   CreportFoundBy,
   CreportFoundItem,
   CreportLostItem,
+  CupdateFoundItem,
 } from './foundItem.controller';
 import authentication from '../../middlewares/authentication';
 
@@ -41,6 +45,14 @@ router.get('/', CgetFoundItems);
 router.get('/by-user', authentication(), CgetUserSpecificFoundItems);
 router.get('/found-by/:foundItemId', CgetFoundBy);
 router.get('/:id', CgetSingleFoundItem);
+
+router.patch(
+  '/',
+  authentication(),
+  validateRequest(foundItemUpdatePayloadValidation),
+  CupdateFoundItem,
+);
+
 router.delete('/:foundItemId', authentication(), CdeleteFoundItem);
 
 export default router;
