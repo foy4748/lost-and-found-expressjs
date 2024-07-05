@@ -45,7 +45,7 @@ export async function SloginUser(payload: TUserLoginPayLoad) {
     },
   });
 
-  const isPasswordMatched = bcrypt.compare(
+  const isPasswordMatched = await bcrypt.compare(
     givenPassword,
     String(foundUser?.password),
   );
@@ -78,27 +78,28 @@ export async function SchangeUserPassword(
     },
   });
   if (foundUser) {
-    const { password } = foundUser;
     const isPasswordMatched = await bcrypt.compare(
       payload.currentPassword,
-      password,
+      String(foundUser.password),
     );
     if (isPasswordMatched) {
+      const hashedPassword = await bcrypt.hash(
+        payload.newPassword as string,
+        Number(config?.bcrypt_salt_rounds),
+      );
       await prisma.users.update({
         where: {
           id: decoded.id,
         },
         data: {
-          password: payload.newPassword,
+          password: hashedPassword,
         },
       });
       return true;
     } else {
-      new AppError(httpStatus.FORBIDDEN, 'Password mismatched');
-      return false;
+      throw new AppError(httpStatus.FORBIDDEN, 'Password mismatched');
     }
   } else {
-    new AppError(httpStatus.BAD_REQUEST, 'User not found');
-    return false;
+    throw new AppError(httpStatus.BAD_REQUEST, 'User not found');
   }
 }
