@@ -28,3 +28,8 @@ export type TUserLoginPayLoad = {
   email: string;
   password: string;
 };
+
+export type TPasswordReplacement = {
+  currentPassword: string;
+  newPassword: string;
+};

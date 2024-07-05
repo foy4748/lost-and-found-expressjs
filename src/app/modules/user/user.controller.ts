@@ -4,7 +4,12 @@ import sendResponse, { TResponse } from '../../utils/sendResponse';
 import jwt from 'jsonwebtoken';
 import type { Users, UserProfiles } from '@prisma/client';
 
-import { ScreateUserAndProfile, SloginUser } from './user.service';
+import {
+  SchangeUserPassword,
+  ScreateUserAndProfile,
+  SgetSingleUser,
+  SloginUser,
+} from './user.service';
 import config from '../../config';
 
 type cookieSameSite = boolean | 'none' | 'strict' | 'lax' | undefined;
@@ -66,4 +71,26 @@ export const CloginUser = catchAsyncError(async (req, res) => {
   };
   res.cookie('token', token, cookieOptions);
   sendResponse<TuserInfoWithToken<typeof userInfo>>(res, responseObj);
+});
+
+export const CgetSingleUser = catchAsyncError(async (req, res) => {
+  const foundUser = await SgetSingleUser(req.decoded);
+  const responseObj: TResponse<typeof foundUser> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User data retrieved successfully',
+    data: foundUser,
+  };
+  sendResponse<typeof foundUser>(res, responseObj);
+});
+
+export const CchangeUserPassword = catchAsyncError(async (req, res) => {
+  const isSuccess = await SchangeUserPassword(req.decoded, req.body);
+  const responseObj: TResponse<typeof isSuccess> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Changed password successfully',
+    data: isSuccess,
+  };
+  sendResponse(res, responseObj);
 });

@@ -21,9 +21,11 @@ export const userLoginValidationSchema = z.object({
 export const userPasswordUpdateValidationSchema = z.object({
   currentPassword: z
     .string()
+    .min(8, 'Minimum 8 character long password is required')
     .max(16, 'Maximum 16 character is allowed for password.'),
   newPassword: z
     .string()
+    .min(8, 'Minimum 8 character long password is required')
     .max(16, 'Maximum 16 character is allowed for password.'),
 });
 
