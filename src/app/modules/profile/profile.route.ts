@@ -9,7 +9,7 @@ import { updateProfilePayloadValidation } from './profile.validation';
 const router = express.Router();
 
 router.get('/', authentication(), CgetProfile);
-router.put(
+router.patch(
   '/',
   authentication(),
   validateRequest(updateProfilePayloadValidation),

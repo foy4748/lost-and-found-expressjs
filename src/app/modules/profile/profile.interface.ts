@@ -1,4 +1,7 @@
 export type TUpdateProfilePayload = {
-  bio?: string;
-  age?: number;
+  name?: string;
+  profile: {
+    bio?: string;
+    age?: number;
+  };
 };
