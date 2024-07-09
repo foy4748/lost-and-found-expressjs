@@ -8,11 +8,13 @@ import catchAsyncError from '../utils/catchAsyncError';
 export type TDecodedJWT = {
   id: string;
   email: string;
+  isAdmin: boolean;
+  isDeleted: boolean;
   iat: number;
   exp: number;
 };
 
-const authentication = (): RequestHandler => {
+const authentication = (shouldBeAnAdmin?: boolean): RequestHandler => {
   return catchAsyncError((req, _, next) => {
     const { token } = req.cookies;
     //console.log(authorization);
@@ -25,7 +27,12 @@ const authentication = (): RequestHandler => {
     } catch (error) {
       throw new AppError(403, 'Unauthorized Access 1');
     }
-
+    if (shouldBeAnAdmin && shouldBeAnAdmin != Boolean(decoded.isAdmin)) {
+      throw new AppError(403, 'Unauthorized Access 11');
+    }
+    if (decoded.isDeleted) {
+      throw new AppError(403, 'User is inactivated by admin. No longer Access');
+    }
     if (decoded) {
       // JWT Expiry: The provided JWT (JSON Web Token) has expired.
       req.decoded = decoded as JwtPayload;

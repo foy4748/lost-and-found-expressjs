@@ -20,10 +20,12 @@ import authentication from '../../middlewares/authentication';
 
 const router = express.Router();
 
+const shouldBeAnAdmin = true;
+
 router.post('/log-out', ClogoutUser);
 router.get('/user', authentication(), CgetSingleUser);
 // REQUIRES ADMIN ACCESS
-router.get('/users/all', authentication(), CgetAllUsers);
+router.get('/users/all', authentication(shouldBeAnAdmin), CgetAllUsers);
 
 router.post('/register', validateRequest(userValidationSchema), CcreateUser);
 router.post('/login', validateRequest(userLoginValidationSchema), CloginUser);
