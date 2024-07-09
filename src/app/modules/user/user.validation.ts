@@ -29,4 +29,6 @@ export const userPasswordUpdateValidationSchema = z.object({
     .max(16, 'Maximum 16 character is allowed for password.'),
 });
 
+export const userDeleteValidationSchema = z.object({ isDeleted: z.boolean() });
+
 export default userValidationSchema;

@@ -33,6 +33,8 @@ model Users {
     FoundItems FoundItems[]
     Claims     Claims[]
     FoundBy    FoundBy[]
+    isAdmin    Boolean       @default(false)
+    isDeleted  Boolean       @default(false)
 }
 
 // FoundItemCategory Model

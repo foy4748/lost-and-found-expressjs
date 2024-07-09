@@ -5,6 +5,7 @@ import {
   TPasswordReplacement,
   TUserAndUserProfilePayLoad,
   TUserLoginPayLoad,
+  TpaginationControlObject,
 } from './user.interface';
 import AppError from '../../error/AppError';
 import httpStatus from 'http-status';
@@ -102,4 +103,33 @@ export async function SchangeUserPassword(
   } else {
     throw new AppError(httpStatus.BAD_REQUEST, 'User not found');
   }
+}
+
+export async function SdeleteUser(payload: {
+  isDeleted: boolean;
+  userId: string;
+}) {
+  console.log(payload);
+  const result = await prisma.users.update({
+    where: {
+      id: payload.userId,
+    },
+    data: {
+      isDeleted: payload.isDeleted,
+    },
+  });
+  return !!result || false;
+}
+
+export async function SgetAllUsers(
+  paginationControlObject: TpaginationControlObject,
+) {
+  const { limit, page } = paginationControlObject;
+  const skip = ((Number(page) || 1) - 1) * (Number(limit) || 10);
+  const result = await prisma.users.findMany({
+    select: { ...allowedUserFields, profile: true },
+    skip,
+    take: Number(limit) || 10,
+  });
+  return result;
 }

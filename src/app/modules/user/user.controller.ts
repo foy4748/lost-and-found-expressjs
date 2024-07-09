@@ -7,6 +7,8 @@ import type { Users, UserProfiles } from '@prisma/client';
 import {
   SchangeUserPassword,
   ScreateUserAndProfile,
+  SdeleteUser,
+  SgetAllUsers,
   SgetSingleUser,
   SloginUser,
 } from './user.service';
@@ -84,12 +86,39 @@ export const CgetSingleUser = catchAsyncError(async (req, res) => {
   sendResponse<typeof foundUser>(res, responseObj);
 });
 
+export const CgetAllUsers = catchAsyncError(async (req, res) => {
+  const { limit, page } = req.params;
+  const _limit = Number(limit ?? 10);
+  const _page = Number(page ?? 1);
+  const foundUsers = await SgetAllUsers({ limit: _limit, page: _page });
+  const responseObj: TResponse<typeof foundUsers> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Users data retrieved successfully',
+    data: foundUsers,
+  };
+  sendResponse<typeof foundUsers>(res, responseObj);
+});
+
 export const CchangeUserPassword = catchAsyncError(async (req, res) => {
   const isSuccess = await SchangeUserPassword(req.decoded, req.body);
   const responseObj: TResponse<typeof isSuccess> = {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Changed password successfully',
+    data: isSuccess,
+  };
+  sendResponse(res, responseObj);
+});
+
+export const CdeleteUser = catchAsyncError(async (req, res) => {
+  const { isDeleted } = req.body;
+  const { id: userId } = req.params;
+  const isSuccess = await SdeleteUser({ isDeleted, userId });
+  const responseObj: TResponse<typeof isSuccess> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User deleted successfully',
     data: isSuccess,
   };
   sendResponse(res, responseObj);
