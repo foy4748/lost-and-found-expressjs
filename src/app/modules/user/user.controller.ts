@@ -52,12 +52,16 @@ export const CcreateUser = catchAsyncError(async (req, res) => {
 export const CloginUser = catchAsyncError(async (req, res) => {
   const { body } = req;
   const userInfo = (await SloginUser(body)) as Users;
-  const { id, email } = userInfo;
+  const { id, email, isDeleted, isAdmin } = userInfo;
+  /* eslint no-unused-vars: "off" */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password, createdAt, updatedAt, ...restData } = userInfo;
   const token = jwt.sign(
     {
       id,
       email,
+      isDeleted,
+      isAdmin,
     },
     String(config?.jwt_access_token),
     { expiresIn: 60 * 60 },
@@ -120,6 +124,17 @@ export const CdeleteUser = catchAsyncError(async (req, res) => {
     statusCode: httpStatus.OK,
     message: 'User deleted successfully',
     data: isSuccess,
+  };
+  sendResponse(res, responseObj);
+});
+
+export const ClogoutUser = catchAsyncError(async (_, res) => {
+  res.clearCookie('token', { ...cookieOptions, maxAge: 0 });
+  const responseObj: TResponse<boolean> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User logged out successfully',
+    data: true,
   };
   sendResponse(res, responseObj);
 });

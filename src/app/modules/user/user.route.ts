@@ -13,12 +13,14 @@ import {
   CgetAllUsers,
   CgetSingleUser,
   CloginUser,
+  ClogoutUser,
 } from './user.controller';
 import authentication from '../../middlewares/authentication';
 //import authentication from '../../middlewares/authentication';
 
 const router = express.Router();
 
+router.post('/log-out', ClogoutUser);
 router.get('/user', authentication(), CgetSingleUser);
 // REQUIRES ADMIN ACCESS
 router.get('/users/all', authentication(), CgetAllUsers);

@@ -109,7 +109,6 @@ export async function SdeleteUser(payload: {
   isDeleted: boolean;
   userId: string;
 }) {
-  console.log(payload);
   const result = await prisma.users.update({
     where: {
       id: payload.userId,
