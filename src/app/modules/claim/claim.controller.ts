@@ -7,6 +7,7 @@ import {
   SgetClaimByFoundById,
   SgetClaimByUserId,
   SgetClaims,
+  SgetClaimsCount,
   SupdateClaim,
 } from './claim.service';
 
@@ -69,6 +70,17 @@ export const CgetClaimByUserId = catchAsyncError(async (req, res) => {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Claims retrieved successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
+});
+
+export const CgetClaimsCount = catchAsyncError(async (_, res) => {
+  const data = await SgetClaimsCount();
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Claims Analytics were retrieved successfully',
     data,
   };
   sendResponse<typeof data>(res, responseObj);

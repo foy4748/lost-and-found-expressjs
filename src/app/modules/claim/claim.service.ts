@@ -81,3 +81,13 @@ export async function SgetClaimByUserId(userId: string) {
   });
   return result;
 }
+
+export async function SgetClaimsCount() {
+  const allClaims = await prisma.claims.count({});
+  const approavedClaims = await prisma.claims.count({
+    where: {
+      status: 'APPROVED',
+    },
+  });
+  return { allClaims, approavedClaims };
+}

@@ -3,6 +3,7 @@ import catchAsyncError from '../../utils/catchAsyncError';
 import sendResponse, { TResponse } from '../../utils/sendResponse';
 import {
   SdeleteFoundItem,
+  SfoundItemCounts,
   SgetFoundBy,
   SgetSingleFoundItem,
   SgetUserSpecificFoundItems,
@@ -158,4 +159,15 @@ export const CdeleteFoundItem = catchAsyncError(async (req, res) => {
       "You can't delete someone else's item",
     );
   }
+});
+
+export const CfoundItemCounts = catchAsyncError(async (_, res) => {
+  const data = await SfoundItemCounts();
+  const responseObj: TResponse<typeof data> = {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Found Items Analytics were retrieved successfully',
+    data,
+  };
+  sendResponse<typeof data>(res, responseObj);
 });

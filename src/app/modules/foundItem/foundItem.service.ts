@@ -224,3 +224,14 @@ export const SdeleteFoundItem = async (foundItemId: string) => {
 
   return result;
 };
+
+export const SfoundItemCounts = async () => {
+  const allItemsCount = await prisma.foundItems.count({});
+  const foundItemsCount = await prisma.foundItems.count({
+    where: {
+      isItemFound: true,
+    },
+  });
+
+  return { allItemsCount, foundItemsCount };
+};

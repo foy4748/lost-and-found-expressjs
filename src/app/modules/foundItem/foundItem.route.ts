@@ -7,6 +7,7 @@ import foundItemValidation, {
 
 import {
   CdeleteFoundItem,
+  CfoundItemCounts,
   CgetFoundBy,
   CgetFoundItems,
   CgetSingleFoundItem,
@@ -18,6 +19,7 @@ import {
 } from './foundItem.controller';
 import authentication from '../../middlewares/authentication';
 
+const shouldBeAnAdmin = true;
 const router = express.Router();
 
 router.post(
@@ -42,6 +44,7 @@ router.post(
 );
 
 router.get('/', CgetFoundItems);
+router.get('/analytics', authentication(shouldBeAnAdmin), CfoundItemCounts);
 router.get('/by-user', authentication(), CgetUserSpecificFoundItems);
 router.get('/found-by/:foundItemId', CgetFoundBy);
 router.get('/:id', CgetSingleFoundItem);

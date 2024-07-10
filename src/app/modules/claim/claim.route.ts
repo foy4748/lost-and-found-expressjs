@@ -10,10 +10,12 @@ import {
   CgetClaimByFoundById,
   CgetClaimByUserId,
   CgetClaims,
+  CgetClaimsCount,
   CupdateClaim,
 } from './claim.controller';
 
 const router = express.Router();
+const shouldBeAnAdmin = true;
 
 router.post(
   '/',
@@ -23,6 +25,7 @@ router.post(
 );
 
 router.get('/', authentication(), CgetClaims);
+router.get('/analytics', authentication(shouldBeAnAdmin), CgetClaimsCount);
 router.get('/by-user', authentication(), CgetClaimByUserId);
 router.get('/:foundById', authentication(), CgetClaimByFoundById);
 
