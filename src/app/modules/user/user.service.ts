@@ -44,6 +44,7 @@ export async function SloginUser(payload: TUserLoginPayLoad) {
     where: {
       email: String(payload?.email),
     },
+    include: { profile: true },
   });
 
   const isPasswordMatched = await bcrypt.compare(
