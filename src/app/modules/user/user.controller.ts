@@ -29,7 +29,7 @@ export const CcreateUser = catchAsyncError(async (req, res) => {
   const data = await ScreateUserAndProfile(body);
   const { password, ...restData } = data;
 
-  const { id, email } = data;
+  const { id, email, isDeleted, isAdmin } = data;
   const token = jwt.sign(
     {
       id,

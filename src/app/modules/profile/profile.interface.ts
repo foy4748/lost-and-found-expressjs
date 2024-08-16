@@ -3,5 +3,6 @@ export type TUpdateProfilePayload = {
   profile: {
     bio?: string;
     age?: number;
+    photoUrl?: string;
   };
 };
