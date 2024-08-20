@@ -3,7 +3,7 @@ import app from './app';
 import config from './app/config';
 import { Server } from 'http';
 
-const PORT = process.env.PORT || config.port;
+const PORT = process.env.PORT || config?.port || 3001;
 let server: Server;
 
 function main() {
