@@ -13,11 +13,19 @@
 - [Google Drive](https://drive.google.com/file/d/1M1s4frCcy9nsorupfLgXmCqzk27i3T7T/view?usp=sharing)
 
 
+#### Admin Account
+```json
+{
+	"email": "test@test.com",
+	"password": "passwordpassword"
+}
+```
+
 #### User Account
 ```json
 {
-	"email": "john@example.com",
-	"password": "password"
+	"email": "test2@test.com",
+	"password": "passwordpassword"
 }
 ```
 ## Used Technologies
@@ -41,6 +49,11 @@ Then to start the server locally. You need to run this command below.
 pnpm run start:dev
 ```
 
+Then copy the example env file to .env file. Then provide necessary Database connection strings and token secret as needed
+
+```console
+cp env.example .env
+```
 
 
 ### **Important**    
