@@ -16,8 +16,8 @@ export type TDecodedJWT = {
 
 const authentication = (shouldBeAnAdmin?: boolean): RequestHandler => {
   return catchAsyncError((req, _, next) => {
-    const { token } = req.cookies;
-    //console.log(authorization);
+    let { token } = req.cookies;
+    if (!token) token = req.headers.authorization;
     let decoded;
     try {
       decoded = jwt.verify(

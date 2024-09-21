@@ -11,28 +11,38 @@ const ScreateFakeData = async () => {
   const user_token = { token: '' };
   const userCredentials = {
     email: 'test@test.com',
-    password: 'password',
+    password: 'passwordpassword',
   };
 
   const loginAsUser = async () => {
     console.log('Trying to login as User for creating reviews');
-    const { data } = await client.post(
-      'https://apollo-assignment-08.vercel.app/api/login',
-      userCredentials,
-    );
+    const { data } = await client.post('/api/login', userCredentials);
     const { token } = data.data;
+    console.log('Received Token', token);
     client.defaults.headers.common['Authorization'] = token;
     user_token.token = token;
     console.log('User Login successfull');
   };
   await loginAsUser();
 
+  /*
+  const categoryNames = [
+    'Documents',
+    'Jewelleries',
+    'Bank Card',
+    'Electronics',
+    'Keys',
+    'Wallet',
+  ];
+  */
+
   const categoryIds = [
-    '84367f83-f26b-434b-8581-36b473068908',
-    '650bcc47-3366-4985-ab4a-e43782add7f3',
-    '8d7da51c-9da3-41f1-9611-d1f03eb864bd',
-    '13a62f2d-d752-4adf-ae6a-e5b360ec331b',
-    '05b1adc2-aad4-4c5d-91da-51c96437b760',
+    '38eced6e-7113-423d-b28d-770ff1dadbc6', // Documents
+    '155b9952-e32b-4079-aced-365666c3e65f', // Jewelleries
+    '00c08564-2638-4d9f-966d-d1c703cf2a53', // Bank Card
+    '097f525c-0bd5-4beb-acec-0b48a09e712b', // Electronics
+    '96d88a6c-ba7d-421e-9c98-e3e9f3fe2db5', // Keys
+    'bf1c0bc7-ef65-4954-95fe-3a8b91c6fe8c', // Wallet
   ];
 
   const randomFoundItemName = [
@@ -89,25 +99,44 @@ const ScreateFakeData = async () => {
     'Singapore, Singapore',
   ];
 
+  const randomItemPics = [
+    'https://i.ibb.co.com/M7RGN7q/1.png', // Phone
+    'https://i.ibb.co.com/PCnbtd2/2.png', // Wallet
+    'https://i.ibb.co.com/R0JTQCw/3.png', // Bank Cards
+    'https://i.ibb.co.com/92tf8rJ/4.png', // Keys
+  ];
+
   for (let i = 0; i < 49; i++) {
     const categoryId = returnRandomItem<string>(categoryIds);
     const foundItemName = returnRandomItem<string>(randomFoundItemName);
     const description = returnRandomItem<string>(randomDescriptions);
     const location = returnRandomItem<string>(randomLocations);
-    const userId = 'd650af09-a7ce-46a1-9d1d-4efd06bbfce2';
+    const userId = 'd5c1d88c-4a7f-4a99-928a-81fa1e08ae36';
+    const photoUrl = returnRandomItem(randomItemPics);
     const payload = {
       categoryId,
       foundItemName,
       description,
       location,
       userId,
+      photoUrl,
     };
 
-    const result = await client.post(
-      'https://apollo-assignment-08.vercel.app/api/found-items',
-      payload,
-    );
-    console.log(result);
+    const reportFoundOrReportLost = returnRandomItem([
+      'report-found',
+      'report-lost',
+    ]);
+
+    try {
+      const result = await client.post(
+        `/api/found-items/${reportFoundOrReportLost}`,
+        payload,
+      );
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      break;
+    }
   }
 };
 
