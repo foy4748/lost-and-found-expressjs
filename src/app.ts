@@ -12,7 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions: CorsOptions = {
-  origin: ['https://apollo-assignment-09.vercel.app', 'http://localhost:3000'],
+  //origin: ['https://apollo-assignment-09.vercel.app', 'http://localhost:3000'],
+  origin: 'https://apollo-assignment-09.vercel.app',
   methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS',
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true,
