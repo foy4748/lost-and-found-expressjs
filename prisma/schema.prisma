@@ -81,7 +81,7 @@ model FoundItems {
 model Claims {
     id                     String   @id @default(uuid())
     user                   Users    @relation(fields: [userId], references: [id])
-    userId                 String   @unique
+    userId                 String
     foundBy                FoundBy  @relation(fields: [foundById], references: [id], onDelete: Cascade)
     foundById              String
     status                 STATUS   @default(PENDING)
@@ -91,6 +91,8 @@ model Claims {
     createdAt  DateTime     @default(now())
     updatedAt  DateTime     @updatedAt
     FoundItems FoundItems[]
+
+    @@unique([userId, foundById])
 }
 
 // UserProfile Model

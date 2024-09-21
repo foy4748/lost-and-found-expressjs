@@ -38,15 +38,16 @@ export const CcreateUser = catchAsyncError(async (req, res) => {
     String(config?.jwt_access_token),
     { expiresIn: 60 * 60 },
   );
-  const responseObj: TResponse<typeof data> = {
+  type TuserInfoWithToken<T> = Partial<T> & { token: string };
+  const responseObj: TResponse<TuserInfoWithToken<typeof data>> = {
     success: true,
     statusCode: httpStatus.CREATED,
     message: 'User registered successfully',
-    data: restData as typeof data,
+    data: { ...restData, token },
   };
   res.setHeader('token', token);
   res.cookie('token', token, cookieOptions);
-  sendResponse<typeof data>(res, responseObj);
+  sendResponse<TuserInfoWithToken<typeof data>>(res, responseObj);
 });
 
 export const CloginUser = catchAsyncError(async (req, res) => {
