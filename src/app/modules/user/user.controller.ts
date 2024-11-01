@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 import catchAsyncError from '../../utils/catchAsyncError';
 import sendResponse, { TResponse } from '../../utils/sendResponse';
 import jwt from 'jsonwebtoken';
-import type { Users, UserProfiles } from '@prisma/client';
+import type { Users } from '@prisma/client';
 
 import {
   SchangeUserPassword,
@@ -22,6 +22,7 @@ const cookieOptions = {
   sameSite: (process.env.NODE_ENV === 'production'
     ? 'none'
     : 'strict') as cookieSameSite,
+  maxAge: 3600,
 };
 
 export const CcreateUser = catchAsyncError(async (req, res) => {
