@@ -22,7 +22,7 @@ const cookieOptions = {
   sameSite: (process.env.NODE_ENV === 'production'
     ? 'none'
     : 'strict') as cookieSameSite,
-  maxAge: 3600,
+  maxAge: 3600 * 1000,
 };
 
 export const CcreateUser = catchAsyncError(async (req, res) => {
