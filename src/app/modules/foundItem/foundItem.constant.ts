@@ -2,6 +2,7 @@ export const foundItemsFilterableFields = [
   'foundItemName',
   'searchTerm',
   'categoryId',
+  'isItemFound'
 ];
 
 export const foundItemsSearchAbleFields = [

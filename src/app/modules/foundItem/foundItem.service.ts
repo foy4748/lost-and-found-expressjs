@@ -79,12 +79,32 @@ export const SpaginatedAndFilteredFoundItems = async (
 
   if (Object.keys(filterFields).length > 0) {
     andCondions.push({
-      AND: Object.keys(filterFields).map((key) => ({
-        [key]: {
-          // eslint-disable-next-line
-          equals: (filterFields as any)[key],
-        },
-      })),
+      AND: Object.keys(filterFields).map((key) => {
+        if (key == 'isItemFound') {
+          if (!isNaN(Number((filterFields as TfilterControlObject)[key])))
+            return {
+              [key]: {
+                // eslint-disable-next-line
+                equals: Boolean(
+                  Number((filterFields as TfilterControlObject)[key]),
+                ),
+              },
+            };
+          else
+            return {
+              [key]: {
+                equals: false,
+              },
+            };
+        }
+
+        return {
+          [key]: {
+            // eslint-disable-next-line
+            equals: (filterFields as any)[key],
+          },
+        };
+      }),
     });
   }
 

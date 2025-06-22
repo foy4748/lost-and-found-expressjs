@@ -19,6 +19,7 @@ export type TfoundItemUpdatePayload = {
 
 export type TfilterControlObject = {
   foundItemName?: string;
+  isItemFound?: string | `${number}`;
   searchTerm?: string;
 };
 
