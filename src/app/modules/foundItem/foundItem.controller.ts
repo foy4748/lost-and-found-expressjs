@@ -23,8 +23,9 @@ import AppError from '../../error/AppError';
 
 export const CreportLostItem = catchAsyncError(async (req, res) => {
   const { body } = req;
-  const data = await SreportLostItem(body, req.decoded);
+  // const data = await SreportLostItem(body, req.decoded);
 
+  const data = body;
   const responseObj: TResponse<typeof data> = {
     success: true,
     statusCode: httpStatus.CREATED,
@@ -48,6 +49,7 @@ export const CreportFoundItem = catchAsyncError(async (req, res) => {
 
 export const CgetFoundItems = catchAsyncError(async (req, res) => {
   const filterFields = pick(req.query, foundItemsFilterableFields);
+  console.log({ filterFields });
   const paginationFields = pick(req.query, paginationRelatedFields);
   const data = await SpaginatedAndFilteredFoundItems(
     filterFields,

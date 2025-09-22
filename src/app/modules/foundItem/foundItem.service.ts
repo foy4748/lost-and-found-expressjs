@@ -66,6 +66,7 @@ export const SpaginatedAndFilteredFoundItems = async (
   const skip = ((Number(page) || 1) - 1) * (Number(limit) || 10);
   const andCondions: Prisma.FoundItemsWhereInput[] = [];
   const { searchTerm, ...filterFields } = filterControlObject;
+  console.log('From lost-items GET API', { searchTerm, filterFields });
   if (searchTerm) {
     andCondions.push({
       OR: foundItemsSearchAbleFields.map((field) => ({
@@ -100,8 +101,9 @@ export const SpaginatedAndFilteredFoundItems = async (
 
         return {
           [key]: {
-            // eslint-disable-next-line
-            equals: (filterFields as any)[key],
+            equals: (filterFields as TfilterControlObject)[
+              key as keyof TfilterControlObject
+            ],
           },
         };
       }),

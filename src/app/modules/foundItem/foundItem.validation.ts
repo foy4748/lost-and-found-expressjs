@@ -1,25 +1,25 @@
 import { z } from 'zod';
 
 const foundItemValidation = z.object({
-  categoryId: z.string(),
-  foundItemName: z.string(),
-  description: z.string(),
-  location: z.string(),
+  categoryId: z.string().min(1),
+  foundItemName: z.string().min(1),
+  description: z.string().min(1),
+  location: z.string().min(1),
   isItemFound: z.boolean().optional(),
   photoUrl: z.string().optional(),
 });
 
 export const foundItemUpdatePayloadValidation = z.object({
   id: z.string(),
-  categoryId: z.string().optional(),
-  foundItemName: z.string().optional(),
-  description: z.string().optional(),
-  location: z.string().optional(),
+  categoryId: z.string().min(1).optional(),
+  foundItemName: z.string().min(1).optional(),
+  description: z.string().min(1).optional(),
+  location: z.string().min(1).optional(),
   isItemFound: z.boolean().optional(),
-  photoUrl: z.string().optional(),
+  photoUrl: z.string().min(1).optional(),
 });
 
 export const foundByValidation = z.object({
-  foundItemId: z.string(),
+  foundItemId: z.string().min(1),
 });
 export default foundItemValidation;
