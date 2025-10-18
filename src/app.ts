@@ -3,10 +3,13 @@ import express, { Application, Request, Response } from 'express';
 import globalRoutes from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandlers';
 import cookieParser from 'cookie-parser';
+import RedisRateLimiterHandler from './app/middlewares/rateLimiter';
 
 const app: Application = express();
-
+const rateLimiter = new RedisRateLimiterHandler();
+rateLimiter.connect();
 app.use(express.json());
+app.use(rateLimiter.rateLimiter());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
