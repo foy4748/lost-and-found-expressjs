@@ -7,7 +7,7 @@
 - [Vercel](https://apollo-assignment-08.vercel.app) : [https://apollo-assignment-08.vercel.app](https://apollo-assignment-08.vercel.app)    
 
 ### Github Repo Link
-- [Github](https://github.com/Porgramming-Hero-web-course/l2-b2-fullstack-track-assignment-8-foy4748)
+- [Github](https://github.com/foy4748/lost-and-found-expressjs)
 
 ### Explanation Video Link
 - [Google Drive](https://drive.google.com/file/d/1M1s4frCcy9nsorupfLgXmCqzk27i3T7T/view?usp=sharing)
